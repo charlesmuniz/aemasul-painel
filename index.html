@@ -171,6 +171,8 @@
   const SB_KEY="sb_publishable_sS2Gfj7_j-UWIT24Z5Dn1g_piq1rM3i";
   const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const fmt=n=>Number(n).toLocaleString('pt-BR');
+  const NOMES={Pedagogia:"Pedagogia",Direito:"Direito",Letras:"Letras (Port./Inglês)",Matematica:"Matemática",Administracao:"Administração",Historia:"História",Biologicas:"Ciências Biológicas",Psicologia:"Psicologia",RH:"Gestão de RH",EdFisica:"Educação Física",Marketing:"Marketing",Agronegocio:"Gestão do Agronegócio",Outros:"Outros"};
+  const nome=c=>NOMES[c]||c;
 
   async function carregar(){
     const btn=document.getElementById('btn'), err=document.getElementById('err');
@@ -205,13 +207,13 @@
     const a1=d.analise1||[]; const maxT=Math.max(1,...a1.map(r=>r.matriculados));
     document.getElementById('t1').innerHTML=a1.map(r=>{
       const cls=r.nao_logaram>0?'crit':'good';
-      return `<tr><td>${esc(r.curso)}</td><td class="num">${fmt(r.matriculados)}</td><td class="num">${fmt(r.logaram)}</td><td class="num"><span class="pill ${cls}">${fmt(r.nao_logaram)}</span></td></tr>`;
+      return `<tr><td>${esc(nome(r.curso))}</td><td class="num">${fmt(r.matriculados)}</td><td class="num">${fmt(r.logaram)}</td><td class="num"><span class="pill ${cls}">${fmt(r.nao_logaram)}</span></td></tr>`;
     }).join('');
     const s1=a1.reduce((a,r)=>({m:a.m+r.matriculados,l:a.l+r.logaram,n:a.n+r.nao_logaram}),{m:0,l:0,n:0});
     document.getElementById('t1f').innerHTML=`<tr><td>Total</td><td class="num">${fmt(s1.m)}</td><td class="num">${fmt(s1.l)}</td><td class="num">${fmt(s1.n)}</td></tr>`;
     document.getElementById('c1').innerHTML=a1.map(r=>{
       const w=r.matriculados/maxT*100, g=r.matriculados?r.logaram/r.matriculados*100:0, c=r.matriculados?r.nao_logaram/r.matriculados*100:0;
-      return `<div class="row"><div class="cl" title="${esc(r.curso)}">${esc(r.curso)}</div><div class="track" style="width:${w}%"><div class="seg g" style="width:${g}%"></div><div class="seg c" style="width:${c}%"></div></div><div class="rv num">${fmt(r.matriculados)}</div></div>`;
+      return `<div class="row"><div class="cl" title="${esc(nome(r.curso))}">${esc(nome(r.curso))}</div><div class="track" style="width:${w}%"><div class="seg g" style="width:${g}%"></div><div class="seg c" style="width:${c}%"></div></div><div class="rv num">${fmt(r.matriculados)}</div></div>`;
     }).join('');
 
     // Analise 2 (donut)
@@ -229,9 +231,9 @@
 
     // Analise 3
     const a3=d.analise3||[]; const tot3=a3.reduce((a,r)=>a+r.inadimplentes,0)||1; const max3=Math.max(1,...a3.map(r=>r.inadimplentes));
-    document.getElementById('t3').innerHTML=a3.map(r=>`<tr><td>${esc(r.curso)}</td><td class="num">${fmt(r.inadimplentes)}</td><td class="num">${(r.inadimplentes/tot3*100).toFixed(1).replace('.',',')}%</td></tr>`).join('');
+    document.getElementById('t3').innerHTML=a3.map(r=>`<tr><td>${esc(nome(r.curso))}</td><td class="num">${fmt(r.inadimplentes)}</td><td class="num">${(r.inadimplentes/tot3*100).toFixed(1).replace('.',',')}%</td></tr>`).join('');
     document.getElementById('t3f').innerHTML=`<tr><td>Total</td><td class="num">${fmt(tot3)}</td><td class="num">100%</td></tr>`;
-    document.getElementById('c3').innerHTML=a3.map(r=>`<div class="row"><div class="cl" title="${esc(r.curso)}">${esc(r.curso)}</div><div class="track"><div class="seg c" style="width:${r.inadimplentes/max3*100}%"></div></div><div class="rv num">${fmt(r.inadimplentes)}</div></div>`).join('');
+    document.getElementById('c3').innerHTML=a3.map(r=>`<div class="row"><div class="cl" title="${esc(nome(r.curso))}">${esc(nome(r.curso))}</div><div class="track"><div class="seg c" style="width:${r.inadimplentes/max3*100}%"></div></div><div class="rv num">${fmt(r.inadimplentes)}</div></div>`).join('');
   }
 
   carregar();
