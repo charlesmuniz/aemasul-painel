@@ -93,7 +93,7 @@
 <!-- LOGIN -->
 <div id="gate">
   <form class="lcard" onsubmit="entrar(event)">
-    <div class="eye">FAMASUL · Painel financeiro</div>
+    <div class="eye">Grupo AEMASUL · Painel financeiro</div>
     <h1>Acesso restrito</h1>
     <p>Digite a senha para visualizar os indicadores.</p>
     <input id="senha" type="password" placeholder="Senha" autocomplete="current-password" autofocus>
@@ -106,9 +106,9 @@
 <div class="wrap hidden" id="painel">
   <div class="topbar">
     <div>
-      <div class="eyebrow">FAMASUL · Faculdade de Formação de Professores da Mata Sul</div>
+      <div class="eyebrow">Grupo AEMASUL · AEMASUL · FAMASUL · FACIP · FASP</div>
       <h1 class="title">Painel acadêmico-financeiro — 2026.1</h1>
-      <p class="sub">Matrícula, acesso, renovação, inadimplência e recebimentos por local.</p>
+      <p class="sub">Matrícula, acesso, renovação, inadimplência, recebimentos e conciliação BB Pay — grupo AEMASUL (todas as instituições).</p>
     </div>
     <div class="actions">
       <button class="btn" id="btn" onclick="carregar()"><span class="sp"></span><span class="lbl">Atualizar</span></button>
@@ -126,39 +126,42 @@
 
   <!-- RECEBIMENTOS -->
   <section>
-    <div class="stitle"><span class="n">R</span><h2>Recebimentos por mês &amp; local <span class="tag">últimos 6 meses</span></h2></div>
-    <p class="sdesc">Valores recebidos por mês, separados por local: <strong>BB Pay PIX</strong>, <strong>BB Pay Boleto</strong> e <strong>Caixa</strong> (presencial). Com acumulado do período.</p>
-    <div class="card scroll"><table>
-      <thead><tr><th>Mês</th><th>BB Pay PIX</th><th>BB Pay Boleto</th><th>Caixa</th><th>Total</th><th>Acumulado</th></tr></thead>
-      <tbody id="tmes"></tbody>
-    </table></div>
-    <div class="card chart" style="margin-top:16px"><div id="cmes"></div></div>
+    <div class="stitle"><span class="n">R</span><h2>Recebimentos por mês <span class="tag">últimos 6 meses</span></h2></div>
+    <p class="sdesc">Valor <strong>recebido registrado no sistema (PBS)</strong> — baixas de títulos (tipos 12 e 17), grupo AEMASUL. Com acumulado do período.</p>
+    <div class="split">
+      <div class="card scroll"><table>
+        <thead><tr><th>Mês</th><th>Recebido</th><th>Acumulado</th></tr></thead>
+        <tbody id="tmes"></tbody>
+      </table></div>
+      <div class="card chart"><div id="cmes"></div></div>
+    </div>
   </section>
 
   <section>
     <div class="stitle"><span class="n">D</span><h2>Recebimentos por dia <span class="tag">últimos 45 dias</span></h2></div>
     <div class="card scroll" style="max-height:360px;overflow-y:auto"><table>
-      <thead><tr><th>Data</th><th>BB Pay PIX</th><th>BB Pay Boleto</th><th>Caixa</th><th>Total do dia</th></tr></thead>
+      <thead><tr><th>Data</th><th>Recebido no dia</th></tr></thead>
       <tbody id="tdia"></tbody>
     </table></div>
+    <p class="foot-note">Recebido = baixas de títulos no PBS (tipos 12 e 17). Canal (caixa/banco/BB Pay) não é distinguido nessas baixas; o BB Pay aparece na conciliação abaixo.</p>
   </section>
 
   <!-- CONCILIACAO -->
   <section>
     <div class="stitle"><span class="n">C</span><h2>Conciliação nnPay / BB Pay</h2></div>
-    <p class="sdesc">Recebido via BB Pay × tarifa do banco (regra: <strong>1% no PIX</strong> e <strong>R$ 3,50 fixo no boleto</strong>) × líquido que vai para a <strong>conta da faculdade</strong>. A tarifa é o que fica com o convênio BB.</p>
+    <p class="sdesc">Recebido via <strong>BB Pay</strong> × tarifa do banco (regra: <strong>1% no PIX</strong> e <strong>R$ 3,50 fixo no boleto</strong>) × líquido que vai para a <strong>conta da faculdade</strong>. A tarifa é o que fica com o convênio BB.</p>
     <div class="kpis" style="margin-top:0">
-      <div class="kpi acc"><div class="lab">Bruto recebido (BB Pay)</div><div class="val money" id="c_bruto">—</div><div class="foot">6 meses</div></div>
+      <div class="kpi acc"><div class="lab">Bruto recebido (BB Pay)</div><div class="val money" id="c_bruto">—</div><div class="foot">6 meses · PIX + Boleto</div></div>
       <div class="kpi warn"><div class="lab">Tarifa BB (convênio)</div><div class="val money" id="c_tarifa">—</div><div class="foot">1% PIX + R$ 3,50/boleto</div></div>
       <div class="kpi good"><div class="lab">Líquido p/ faculdade</div><div class="val money" id="c_liquido">—</div><div class="foot">bruto − tarifa</div></div>
-      <div class="kpi"><div class="lab">Recebido no caixa</div><div class="val money" id="c_caixa">—</div><div class="foot">presencial (fora do BB Pay)</div></div>
+      <div class="kpi crit"><div class="lab">⚠ BB Pay sem baixa no PBS</div><div class="val money" id="c_gap">—</div><div class="foot" id="c_gapq">pagamentos não conciliados</div></div>
     </div>
     <div class="card scroll" style="margin-top:14px"><table>
       <thead><tr><th>Mês</th><th>Bruto BB Pay</th><th>Tarifa BB (convênio)</th><th>Líquido p/ conta da faculdade</th></tr></thead>
       <tbody id="tconc"></tbody>
       <tfoot id="tconcf"></tfoot>
     </table></div>
-    <p class="foot-note">Conciliação calculada pela regra de tarifa configurada. Cruzamento com o extrato bancário real (o que efetivamente caiu nas contas) pode ser adicionado quando o arquivo do banco estiver disponível.</p>
+    <p class="foot-note"><strong>Alerta:</strong> há pagamentos recebidos no BB Pay cujo título <strong>não foi baixado no sistema da faculdade (PBS)</strong> — aluno pagou mas pode constar em aberto. Conciliação calculada pela regra de tarifa; cruzamento com extrato bancário real pode ser adicionado quando disponível.</p>
   </section>
 
   <!-- MATRICULAS -->
@@ -199,8 +202,8 @@
   <div class="defs">
     <b>Definições e fonte</b>
     <ul>
-      <li><b>Recebimentos</b>: BB Pay (PIX/Boleto) da base de cobrança + entradas de caixa; últimos 6 meses.</li>
-      <li><b>Conciliação</b>: tarifa BB pela regra configurada (1% PIX / R$ 3,50 boleto). Líquido = bruto − tarifa → conta da faculdade.</li>
+      <li><b>Recebido</b>: baixas de títulos no sistema (PBS), tipos 12 (recebimento) e 17; grupo AEMASUL; últimos 6 meses.</li>
+      <li><b>Conciliação BB Pay</b>: tarifa pela regra configurada (1% PIX / R$ 3,50 boleto). Líquido = bruto − tarifa → conta da faculdade. <b>Lacuna</b> = pagamentos no BB Pay sem baixa correspondente no PBS.</li>
       <li><b>Matriculado</b>: 1ª parcela (MESNS.01-20261) quitada. <b>Inadimplente</b>: ≥1 mensalidade (MESNS) 2026.1 em aberto.</li>
       <li><b>Logou</b>: já registrou acesso à plataforma. <b>Renovou</b>: rematrícula 2026.2 não cancelada/rejeitada.</li>
     </ul>
@@ -258,21 +261,22 @@
     foots[2].textContent="de "+fmt(k.quitados)+" adimplentes";
     document.getElementById('stamp').textContent="Atualizado em "+new Date(d.gerado_em).toLocaleString('pt-BR');
 
-    // Recebimentos por mes
-    const rm=d.receb_mes||[]; const maxM=Math.max(1,...rm.map(r=>r.total));
-    document.getElementById('tmes').innerHTML=rm.map(r=>`<tr><td>${mesLabel(r.mes)}</td><td class="money">${money(r.bb_pix)}</td><td class="money">${money(r.bb_boleto)}</td><td class="money">${money(r.caixa)}</td><td class="money"><strong>${money(r.total)}</strong></td><td class="money" style="color:var(--accent)">${money(r.acumulado)}</td></tr>`).join('');
-    document.getElementById('cmes').innerHTML=rm.map(r=>`<div class="row"><div class="cl">${mesLabel(r.mes)}</div><div class="track"><div class="seg a" style="width:${r.total/maxM*100}%"></div></div><div class="rv money" style="width:auto">${money(r.total)}</div></div>`).join('');
+    // Recebimentos por mes (PBS tf12+17)
+    const rm=d.receb_mes||[]; const maxM=Math.max(1,...rm.map(r=>+r.recebido));
+    document.getElementById('tmes').innerHTML=rm.map(r=>`<tr><td>${mesLabel(r.mes)}</td><td class="money"><strong>${money(r.recebido)}</strong></td><td class="money" style="color:var(--accent)">${money(r.acumulado)}</td></tr>`).join('');
+    document.getElementById('cmes').innerHTML=rm.map(r=>`<div class="row"><div class="cl">${mesLabel(r.mes)}</div><div class="track"><div class="seg a" style="width:${(+r.recebido)/maxM*100}%"></div></div><div class="rv money" style="width:auto;min-width:90px">${money(r.recebido)}</div></div>`).join('');
 
     // Recebimentos por dia
     const rd=d.receb_dia||[];
-    document.getElementById('tdia').innerHTML=rd.map(r=>`<tr><td>${r.data.split('-').reverse().join('/')}</td><td class="money">${money(r.bb_pix)}</td><td class="money">${money(r.bb_boleto)}</td><td class="money">${money(r.caixa)}</td><td class="money"><strong>${money(r.total)}</strong></td></tr>`).join('');
+    document.getElementById('tdia').innerHTML=rd.map(r=>`<tr><td>${r.data.split('-').reverse().join('/')}</td><td class="money"><strong>${money(r.recebido)}</strong></td></tr>`).join('');
 
     // Conciliacao
-    const cr=d.conc_resumo||{};
+    const cr=d.conc_resumo||{}, gp=d.lacuna_bbpay||{};
     document.getElementById('c_bruto').textContent=money(cr.bruto);
     document.getElementById('c_tarifa').textContent=money(cr.tarifa);
     document.getElementById('c_liquido').textContent=money(cr.liquido);
-    document.getElementById('c_caixa').textContent=money(cr.caixa);
+    document.getElementById('c_gap').textContent=money(gp.valor);
+    document.getElementById('c_gapq').textContent=fmt(gp.qtd)+" pagamentos não conciliados";
     const cc=d.conciliacao||[];
     document.getElementById('tconc').innerHTML=cc.map(r=>`<tr><td>${mesLabel(r.mes)}</td><td class="money">${money(r.bruto_bb)}</td><td class="money" style="color:var(--warn)">${money(r.tarifa_bb)}</td><td class="money" style="color:var(--good)">${money(r.liquido_faculdade)}</td></tr>`).join('');
     const tb=cc.reduce((a,r)=>({b:a.b+ +r.bruto_bb,t:a.t+ +r.tarifa_bb,l:a.l+ +r.liquido_faculdade}),{b:0,t:0,l:0});
