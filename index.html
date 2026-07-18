@@ -6,47 +6,48 @@
 <title>FAMASUL — Painel 2026.1</title>
 <style>
   :root{
-    --bg:#f4f6fa; --surface:#fff; --surface-2:#eef2f8; --border:#dde3ed;
-    --ink:#161d2b; --ink-2:#4a5568; --ink-3:#7a869a;
-    --accent:#2f5fb3; --accent-2:#1f4e96; --accent-soft:#dbe6f7;
-    --good:#1a7f4b; --good-soft:#d4ede0; --warn:#b26a06; --warn-soft:#f6e6cd;
-    --crit:#c33636; --crit-soft:#f4d9d9;
-    --shadow:0 1px 2px rgba(20,29,43,.06),0 4px 16px rgba(20,29,43,.05); --radius:14px;
+    --bg:#f4f6fa;--surface:#fff;--surface-2:#eef2f8;--border:#dde3ed;--ink:#161d2b;--ink-2:#4a5568;--ink-3:#7a869a;
+    --accent:#2f5fb3;--accent-2:#1f4e96;--accent-soft:#dbe6f7;--good:#1a7f4b;--good-soft:#d4ede0;--warn:#b26a06;--warn-soft:#f6e6cd;
+    --crit:#c33636;--crit-soft:#f4d9d9;--shadow:0 1px 2px rgba(20,29,43,.06),0 4px 16px rgba(20,29,43,.05);--radius:14px;
   }
   @media (prefers-color-scheme:dark){:root{
-    --bg:#0e131c; --surface:#161e2b; --surface-2:#1d2735; --border:#2a3547;
-    --ink:#eef2f8; --ink-2:#a8b3c4; --ink-3:#6f7d92;
-    --accent:#6ea0ec; --accent-2:#6ea0ec; --accent-soft:#23344f;
-    --good:#4cc487; --good-soft:#173528; --warn:#e0a94e; --warn-soft:#3a2c14;
-    --crit:#ef6b6b; --crit-soft:#3a1f1f; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+    --bg:#0e131c;--surface:#161e2b;--surface-2:#1d2735;--border:#2a3547;--ink:#eef2f8;--ink-2:#a8b3c4;--ink-3:#6f7d92;
+    --accent:#6ea0ec;--accent-2:#6ea0ec;--accent-soft:#23344f;--good:#4cc487;--good-soft:#173528;--warn:#e0a94e;--warn-soft:#3a2c14;
+    --crit:#ef6b6b;--crit-soft:#3a1f1f;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
   }}
   :root[data-theme="light"]{--bg:#f4f6fa;--surface:#fff;--surface-2:#eef2f8;--border:#dde3ed;--ink:#161d2b;--ink-2:#4a5568;--ink-3:#7a869a;--accent:#2f5fb3;--accent-2:#1f4e96;--accent-soft:#dbe6f7;--good:#1a7f4b;--good-soft:#d4ede0;--warn:#b26a06;--warn-soft:#f6e6cd;--crit:#c33636;--crit-soft:#f4d9d9;--shadow:0 1px 2px rgba(20,29,43,.06),0 4px 16px rgba(20,29,43,.05)}
   :root[data-theme="dark"]{--bg:#0e131c;--surface:#161e2b;--surface-2:#1d2735;--border:#2a3547;--ink:#eef2f8;--ink-2:#a8b3c4;--ink-3:#6f7d92;--accent:#6ea0ec;--accent-2:#6ea0ec;--accent-soft:#23344f;--good:#4cc487;--good-soft:#173528;--warn:#e0a94e;--warn-soft:#3a2c14;--crit:#ef6b6b;--crit-soft:#3a1f1f;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35)}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1060px;margin:0 auto;padding:34px 20px 70px}
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 20px 70px}
   .num{font-variant-numeric:tabular-nums}
+  /* LOGIN */
+  #gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .lcard{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:34px 30px;max-width:380px;width:100%;text-align:center}
+  .lcard .eye{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .lcard h1{font-size:22px;margin:10px 0 4px}
+  .lcard p{color:var(--ink-2);font-size:13.5px;margin:0 0 20px}
+  .lcard input{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:11px;background:var(--surface-2);color:var(--ink);font-size:15px;text-align:center;letter-spacing:.05em}
+  .lcard input:focus{outline:2px solid var(--accent);border-color:transparent}
+  .lcard .err{color:var(--crit);font-size:13px;margin-top:12px;min-height:18px}
+  .hidden{display:none!important}
   .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
-  h1{font-size:clamp(23px,3.6vw,33px);margin:.25em 0 .1em;letter-spacing:-.02em}
+  h1.title{font-size:clamp(23px,3.6vw,32px);margin:.25em 0 .1em;letter-spacing:-.02em}
   .sub{color:var(--ink-2);font-size:14.5px;margin:0}
   .actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-  .btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent-2);color:#fff;border:none;
-    border-radius:11px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);
-    transition:filter .15s,transform .05s}
-  .btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)}
-  .btn[disabled]{opacity:.6;cursor:progress}
+  .btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent-2);color:#fff;border:none;border-radius:11px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:filter .15s,transform .05s}
+  .btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)} .btn[disabled]{opacity:.6;cursor:progress}
   .btn .sp{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:none;animation:spin .7s linear infinite}
-  .btn.loading .sp{display:inline-block} .btn.loading .lbl{opacity:.85}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .btn.loading .sp{display:inline-block} @keyframes spin{to{transform:rotate(360deg)}}
   @media(prefers-reduced-motion:reduce){.btn .sp{animation:none}}
-  .stamp{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:26px 0 8px}
-  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px 18px;box-shadow:var(--shadow)}
-  .kpi .lab{font-size:12.5px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-  .kpi .val{font-size:33px;font-weight:750;letter-spacing:-.02em;margin-top:5px}
-  .kpi .foot{font-size:12.5px;color:var(--ink-2);margin-top:3px}
-  .kpi.good .val{color:var(--good)} .kpi.warn .val{color:var(--warn)} .kpi.crit .val{color:var(--crit)}
+  .stamp{font-size:12.5px;color:var(--ink-3)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin:26px 0 8px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi .lab{font-size:12px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .kpi .val{font-size:30px;font-weight:750;letter-spacing:-.02em;margin-top:5px}
+  .kpi .foot{font-size:12px;color:var(--ink-2);margin-top:3px}
+  .kpi.good .val{color:var(--good)} .kpi.warn .val{color:var(--warn)} .kpi.crit .val{color:var(--crit)} .kpi.acc .val{color:var(--accent)}
   section{margin-top:40px}
   .stitle{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
   .stitle .n{font-size:13px;font-weight:800;color:#fff;background:var(--accent-2);border-radius:8px;padding:2px 9px}
@@ -54,10 +55,10 @@
   .sdesc{color:var(--ink-2);font-size:14px;margin:0 0 16px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
   .scroll{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
-  th,td{text-align:right;padding:10px 15px;border-bottom:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:420px}
+  th,td{text-align:right;padding:9px 14px;border-bottom:1px solid var(--border)}
   th:first-child,td:first-child{text-align:left}
-  thead th{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;background:var(--surface-2)}
+  thead th{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);font-weight:700;background:var(--surface-2)}
   tbody tr:last-child td{border-bottom:none} tbody tr:hover{background:var(--surface-2)}
   tfoot td{font-weight:750;border-top:2px solid var(--border);background:var(--surface-2)}
   .pill{display:inline-block;min-width:2.3em;text-align:center;padding:1px 8px;border-radius:20px;font-size:12.5px;font-weight:700}
@@ -66,76 +67,122 @@
   .row{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:11px;margin:8px 0}
   .row .cl{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .track{background:var(--surface-2);border-radius:7px;height:22px;overflow:hidden;display:flex}
-  .seg{height:100%} .seg.g{background:var(--good)} .seg.c{background:var(--crit)}
+  .seg{height:100%} .seg.g{background:var(--good)} .seg.c{background:var(--crit)} .seg.a{background:var(--accent)}
   .row .rv{font-size:13px;font-weight:700;text-align:right}
-  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px;font-size:12.5px;color:var(--ink-2)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 14px;font-size:12.5px;color:var(--ink-2)}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
-  .dot.g{background:var(--good)} .dot.c{background:var(--crit)}
+  .dot.g{background:var(--good)} .dot.c{background:var(--crit)} .dot.a{background:var(--accent)}
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:760px){.split{grid-template-columns:1fr}.row{grid-template-columns:112px 1fr 40px}}
   .donutwrap{display:flex;align-items:center;gap:24px;padding:22px;flex-wrap:wrap}
   .donut{width:158px;height:158px;border-radius:50%;flex:none;display:grid;place-items:center;position:relative}
   .donut::after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;background:var(--surface)}
-  .donut .din{position:relative;z-index:1;text-align:center}
-  .donut .din b{font-size:27px;font-weight:750;display:block} .donut .din small{font-size:11px;color:var(--ink-3)}
+  .donut .din{position:relative;z-index:1;text-align:center}.donut .din b{font-size:27px;font-weight:750;display:block}.donut .din small{font-size:11px;color:var(--ink-3)}
   .li{display:flex;align-items:center;gap:9px;margin:8px 0;font-size:14px}
   .foot-note{color:var(--ink-3);font-size:12.5px;margin-top:10px}
   .err{background:var(--crit-soft);color:var(--crit);border-radius:10px;padding:12px 16px;font-size:14px;margin-top:20px;display:none}
+  .money{font-variant-numeric:tabular-nums}
   .defs{margin-top:30px;border-top:1px solid var(--border);padding-top:14px;font-size:12.5px;color:var(--ink-2)}
-  .defs b{color:var(--ink)} .defs ul{margin:6px 0 0;padding-left:18px} .defs li{margin:2px 0}
-  .skel{color:var(--ink-3)}
+  .defs b{color:var(--ink)} .defs ul{margin:6px 0 0;padding-left:18px} .defs li{margin:3px 0}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent)}
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- LOGIN -->
+<div id="gate">
+  <form class="lcard" onsubmit="entrar(event)">
+    <div class="eye">FAMASUL · Painel financeiro</div>
+    <h1>Acesso restrito</h1>
+    <p>Digite a senha para visualizar os indicadores.</p>
+    <input id="senha" type="password" placeholder="Senha" autocomplete="current-password" autofocus>
+    <div class="err" id="lerr"></div>
+    <button class="btn" type="submit" style="margin-top:18px;width:100%;justify-content:center"><span class="sp"></span><span class="lbl">Entrar</span></button>
+  </form>
+</div>
+
+<!-- PAINEL -->
+<div class="wrap hidden" id="painel">
   <div class="topbar">
     <div>
       <div class="eyebrow">FAMASUL · Faculdade de Formação de Professores da Mata Sul</div>
-      <h1>Painel acadêmico-financeiro — 2026.1</h1>
-      <p class="sub">Matrícula, acesso à plataforma, renovação e inadimplência por curso.</p>
+      <h1 class="title">Painel acadêmico-financeiro — 2026.1</h1>
+      <p class="sub">Matrícula, acesso, renovação, inadimplência e recebimentos por local.</p>
     </div>
     <div class="actions">
       <button class="btn" id="btn" onclick="carregar()"><span class="sp"></span><span class="lbl">Atualizar</span></button>
       <div class="stamp" id="stamp">—</div>
     </div>
   </div>
-
   <div class="err" id="err"></div>
 
   <div class="kpis" id="kpis">
-    <div class="kpi"><div class="lab">Matriculados</div><div class="val num skel">…</div><div class="foot">1ª parcela de 2026.1 quitada</div></div>
-    <div class="kpi good"><div class="lab">Acessaram o portal</div><div class="val num skel">…</div><div class="foot">&nbsp;</div></div>
-    <div class="kpi warn"><div class="lab">Quitaram e não renovaram</div><div class="val num skel">…</div><div class="foot">&nbsp;</div></div>
-    <div class="kpi crit"><div class="lab">Inadimplentes 2026.1</div><div class="val num skel">…</div><div class="foot">≥ 1 mensalidade em aberto</div></div>
+    <div class="kpi"><div class="lab">Matriculados</div><div class="val num">—</div><div class="foot">1ª parcela de 2026.1 quitada</div></div>
+    <div class="kpi good"><div class="lab">Acessaram o portal</div><div class="val num">—</div><div class="foot">&nbsp;</div></div>
+    <div class="kpi warn"><div class="lab">Quitaram e não renovaram</div><div class="val num">—</div><div class="foot">&nbsp;</div></div>
+    <div class="kpi crit"><div class="lab">Inadimplentes 2026.1</div><div class="val num">—</div><div class="foot">≥ 1 mensalidade em aberto</div></div>
   </div>
 
+  <!-- RECEBIMENTOS -->
+  <section>
+    <div class="stitle"><span class="n">R</span><h2>Recebimentos por mês &amp; local <span class="tag">últimos 6 meses</span></h2></div>
+    <p class="sdesc">Valores recebidos por mês, separados por local: <strong>BB Pay PIX</strong>, <strong>BB Pay Boleto</strong> e <strong>Caixa</strong> (presencial). Com acumulado do período.</p>
+    <div class="card scroll"><table>
+      <thead><tr><th>Mês</th><th>BB Pay PIX</th><th>BB Pay Boleto</th><th>Caixa</th><th>Total</th><th>Acumulado</th></tr></thead>
+      <tbody id="tmes"></tbody>
+    </table></div>
+    <div class="card chart" style="margin-top:16px"><div id="cmes"></div></div>
+  </section>
+
+  <section>
+    <div class="stitle"><span class="n">D</span><h2>Recebimentos por dia <span class="tag">últimos 45 dias</span></h2></div>
+    <div class="card scroll" style="max-height:360px;overflow-y:auto"><table>
+      <thead><tr><th>Data</th><th>BB Pay PIX</th><th>BB Pay Boleto</th><th>Caixa</th><th>Total do dia</th></tr></thead>
+      <tbody id="tdia"></tbody>
+    </table></div>
+  </section>
+
+  <!-- CONCILIACAO -->
+  <section>
+    <div class="stitle"><span class="n">C</span><h2>Conciliação nnPay / BB Pay</h2></div>
+    <p class="sdesc">Recebido via BB Pay × tarifa do banco (regra: <strong>1% no PIX</strong> e <strong>R$ 3,50 fixo no boleto</strong>) × líquido que vai para a <strong>conta da faculdade</strong>. A tarifa é o que fica com o convênio BB.</p>
+    <div class="kpis" style="margin-top:0">
+      <div class="kpi acc"><div class="lab">Bruto recebido (BB Pay)</div><div class="val money" id="c_bruto">—</div><div class="foot">6 meses</div></div>
+      <div class="kpi warn"><div class="lab">Tarifa BB (convênio)</div><div class="val money" id="c_tarifa">—</div><div class="foot">1% PIX + R$ 3,50/boleto</div></div>
+      <div class="kpi good"><div class="lab">Líquido p/ faculdade</div><div class="val money" id="c_liquido">—</div><div class="foot">bruto − tarifa</div></div>
+      <div class="kpi"><div class="lab">Recebido no caixa</div><div class="val money" id="c_caixa">—</div><div class="foot">presencial (fora do BB Pay)</div></div>
+    </div>
+    <div class="card scroll" style="margin-top:14px"><table>
+      <thead><tr><th>Mês</th><th>Bruto BB Pay</th><th>Tarifa BB (convênio)</th><th>Líquido p/ conta da faculdade</th></tr></thead>
+      <tbody id="tconc"></tbody>
+      <tfoot id="tconcf"></tfoot>
+    </table></div>
+    <p class="foot-note">Conciliação calculada pela regra de tarifa configurada. Cruzamento com o extrato bancário real (o que efetivamente caiu nas contas) pode ser adicionado quando o arquivo do banco estiver disponível.</p>
+  </section>
+
+  <!-- MATRICULAS -->
   <section>
     <div class="stitle"><span class="n">1</span><h2>Matriculados por curso &amp; acesso ao portal</h2></div>
     <p class="sdesc">Alunos com a <strong>parcela 1 de 2026.1 paga</strong>, separados entre os que já fizeram login e os que ainda não acessaram.</p>
     <div class="split">
       <div class="card scroll"><table>
         <thead><tr><th>Curso</th><th>Matríc.</th><th>Logaram</th><th>Não</th></tr></thead>
-        <tbody id="t1"></tbody>
-        <tfoot id="t1f"></tfoot>
+        <tbody id="t1"></tbody><tfoot id="t1f"></tfoot>
       </table></div>
-      <div class="card chart">
-        <div class="legend"><span><i class="dot g"></i>Já logaram</span><span><i class="dot c"></i>Não logaram</span></div>
-        <div id="c1"></div>
-      </div>
+      <div class="card chart"><div class="legend"><span><i class="dot g"></i>Já logaram</span><span><i class="dot c"></i>Não logaram</span></div><div id="c1"></div></div>
     </div>
   </section>
 
   <section>
     <div class="stitle"><span class="n">2</span><h2>Quitaram 2026.1 mas não renovaram</h2></div>
-    <p class="sdesc">Entre os alunos com todas as mensalidades de 2026.1 quitadas, quantos já solicitaram/efetivaram a rematrícula para 2026.2 — público prioritário para renovação.</p>
+    <p class="sdesc">Entre os alunos com todas as mensalidades de 2026.1 quitadas, quantos já solicitaram/efetivaram a rematrícula para 2026.2.</p>
     <div class="card donutwrap">
-      <div class="donut" id="donut"><div class="din"><b class="num" id="d_nao">…</b><small>não renovaram</small></div></div>
+      <div class="donut" id="donut"><div class="din"><b class="num" id="d_nao">—</b><small>não renovaram</small></div></div>
       <div>
-        <div class="li"><i class="dot" style="background:var(--warn)"></i><strong class="num" id="d_nao2">…</strong>&nbsp;quitaram e <strong>não renovaram</strong>&nbsp;<span class="num" id="d_naop" style="color:var(--ink-3)"></span></div>
-        <div class="li"><i class="dot g"></i><strong class="num" id="d_sim">…</strong>&nbsp;quitaram e <strong>renovaram</strong>&nbsp;<span class="num" id="d_simp" style="color:var(--ink-3)"></span></div>
-        <div class="li" style="color:var(--ink-2)">Base: <strong class="num" id="d_base">…</strong>&nbsp;adimplentes em 2026.1</div>
-        <p class="foot-note">"Renovaram" = rematrícula para 2026.2 não cancelada/rejeitada.</p>
+        <div class="li"><i class="dot" style="background:var(--warn)"></i><strong class="num" id="d_nao2">—</strong>&nbsp;quitaram e <strong>não renovaram</strong>&nbsp;<span class="num" id="d_naop" style="color:var(--ink-3)"></span></div>
+        <div class="li"><i class="dot g"></i><strong class="num" id="d_sim">—</strong>&nbsp;quitaram e <strong>renovaram</strong>&nbsp;<span class="num" id="d_simp" style="color:var(--ink-3)"></span></div>
+        <div class="li" style="color:var(--ink-2)">Base: <strong class="num" id="d_base">—</strong>&nbsp;adimplentes em 2026.1</div>
       </div>
     </div>
   </section>
@@ -144,99 +191,114 @@
     <div class="stitle"><span class="n">3</span><h2>Inadimplência 2026.1 por curso</h2></div>
     <p class="sdesc">Alunos com <strong>ao menos uma mensalidade de 2026.1 em aberto</strong>.</p>
     <div class="split">
-      <div class="card scroll"><table>
-        <thead><tr><th>Curso</th><th>Inadimplentes</th><th>% do total</th></tr></thead>
-        <tbody id="t3"></tbody>
-        <tfoot id="t3f"></tfoot>
-      </table></div>
+      <div class="card scroll"><table><thead><tr><th>Curso</th><th>Inadimplentes</th><th>% do total</th></tr></thead><tbody id="t3"></tbody><tfoot id="t3f"></tfoot></table></div>
       <div class="card chart"><div id="c3"></div></div>
     </div>
-    <p class="foot-note">Inadimplência considera mensalidades (MESNS) de 2026.1; taxas avulsas (ex.: biblioteca) não entram nesta contagem.</p>
   </section>
 
   <div class="defs">
     <b>Definições e fonte</b>
     <ul>
-      <li><b>Matriculado</b>: 1ª parcela (MESNS.01-20261) quitada no financeiro.</li>
-      <li><b>Logou</b>: aluno com conta que já registrou acesso à plataforma.</li>
-      <li><b>Renovou</b>: rematrícula para 2026.2 não cancelada/rejeitada.</li>
-      <li><b>Inadimplente</b>: ao menos uma mensalidade (MESNS) de 2026.1 em aberto.</li>
+      <li><b>Recebimentos</b>: BB Pay (PIX/Boleto) da base de cobrança + entradas de caixa; últimos 6 meses.</li>
+      <li><b>Conciliação</b>: tarifa BB pela regra configurada (1% PIX / R$ 3,50 boleto). Líquido = bruto − tarifa → conta da faculdade.</li>
+      <li><b>Matriculado</b>: 1ª parcela (MESNS.01-20261) quitada. <b>Inadimplente</b>: ≥1 mensalidade (MESNS) 2026.1 em aberto.</li>
+      <li><b>Logou</b>: já registrou acesso à plataforma. <b>Renovou</b>: rematrícula 2026.2 não cancelada/rejeitada.</li>
     </ul>
-    Dados lidos ao vivo do Supabase (financeiro), espelhado do sistema de origem. Clique em <b>Atualizar</b> para recarregar.
+    Dados ao vivo do Supabase (financeiro), espelhado do sistema de origem.
   </div>
 </div>
 
 <script>
   const SB_URL="https://fmzapgesxgmxbvpeywya.supabase.co";
   const SB_KEY="sb_publishable_sS2Gfj7_j-UWIT24Z5Dn1g_piq1rM3i";
+  let SENHA="";
   const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-  const fmt=n=>Number(n).toLocaleString('pt-BR');
+  const fmt=n=>Number(n||0).toLocaleString('pt-BR');
+  const money=n=>"R$ "+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
   const NOMES={Pedagogia:"Pedagogia",Direito:"Direito",Letras:"Letras (Port./Inglês)",Matematica:"Matemática",Administracao:"Administração",Historia:"História",Biologicas:"Ciências Biológicas",Psicologia:"Psicologia",RH:"Gestão de RH",EdFisica:"Educação Física",Marketing:"Marketing",Agronegocio:"Gestão do Agronegócio",Outros:"Outros"};
   const nome=c=>NOMES[c]||c;
+  const mesLabel=s=>{const[a,m]=s.split('-');return ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"][+m-1]+"/"+a.slice(2);};
+
+  async function chamar(){
+    const res=await fetch(SB_URL+"/rest/v1/rpc/fn_painel_completo",{method:"POST",
+      headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_senha:SENHA})});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    return res.json();
+  }
+
+  async function entrar(ev){
+    ev.preventDefault();
+    const btn=ev.target.querySelector('button'), le=document.getElementById('lerr');
+    SENHA=document.getElementById('senha').value; le.textContent="";
+    btn.classList.add('loading'); btn.disabled=true;
+    try{
+      const d=await chamar();
+      if(d.erro){ le.textContent="Senha incorreta."; SENHA=""; return; }
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('painel').classList.remove('hidden');
+      pintar(d);
+    }catch(e){ le.textContent="Erro ao acessar. Tente novamente."; }
+    finally{ btn.classList.remove('loading'); btn.disabled=false; }
+  }
 
   async function carregar(){
     const btn=document.getElementById('btn'), err=document.getElementById('err');
     btn.classList.add('loading'); btn.disabled=true; err.style.display='none';
-    try{
-      const res=await fetch(SB_URL+"/rest/v1/rpc/fn_painel_publico",{
-        method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:"{}"});
-      if(!res.ok) throw new Error("HTTP "+res.status);
-      const d=await res.json();
-      render(d);
-      const dt=new Date(d.gerado_em);
-      document.getElementById('stamp').textContent="Atualizado em "+dt.toLocaleString('pt-BR');
-    }catch(e){
-      err.textContent="Não foi possível carregar os dados agora. Tente novamente em instantes. ("+e.message+")";
-      err.style.display='block';
-    }finally{ btn.classList.remove('loading'); btn.disabled=false; }
+    try{ const d=await chamar(); if(d.erro) throw new Error("sessão expirada"); pintar(d); }
+    catch(e){ err.textContent="Não foi possível atualizar agora. ("+e.message+")"; err.style.display='block'; }
+    finally{ btn.classList.remove('loading'); btn.disabled=false; }
   }
 
-  function render(d){
+  function pintar(d){
     const k=d.kpi;
-    const kb=document.querySelectorAll('#kpis .kpi .val');
-    kb[0].textContent=fmt(k.matriculados); kb[0].classList.remove('skel');
-    kb[1].textContent=fmt(k.logaram); kb[1].classList.remove('skel');
-    kb[2].textContent=fmt(k.nao_renovaram); kb[2].classList.remove('skel');
-    kb[3].textContent=fmt(k.inadimplentes); kb[3].classList.remove('skel');
-    const foots=document.querySelectorAll('#kpis .kpi .foot');
+    const kb=document.querySelectorAll('#kpis .kpi .val'), foots=document.querySelectorAll('#kpis .kpi .foot');
+    kb[0].textContent=fmt(k.matriculados); kb[1].textContent=fmt(k.logaram); kb[2].textContent=fmt(k.nao_renovaram); kb[3].textContent=fmt(k.inadimplentes);
     const pct=k.matriculados?Math.round(k.logaram/k.matriculados*1000)/10:0;
     foots[1].textContent=pct+"% dos matriculados · "+fmt(k.nao_logaram)+" nunca entraram";
     foots[2].textContent="de "+fmt(k.quitados)+" adimplentes";
+    document.getElementById('stamp').textContent="Atualizado em "+new Date(d.gerado_em).toLocaleString('pt-BR');
+
+    // Recebimentos por mes
+    const rm=d.receb_mes||[]; const maxM=Math.max(1,...rm.map(r=>r.total));
+    document.getElementById('tmes').innerHTML=rm.map(r=>`<tr><td>${mesLabel(r.mes)}</td><td class="money">${money(r.bb_pix)}</td><td class="money">${money(r.bb_boleto)}</td><td class="money">${money(r.caixa)}</td><td class="money"><strong>${money(r.total)}</strong></td><td class="money" style="color:var(--accent)">${money(r.acumulado)}</td></tr>`).join('');
+    document.getElementById('cmes').innerHTML=rm.map(r=>`<div class="row"><div class="cl">${mesLabel(r.mes)}</div><div class="track"><div class="seg a" style="width:${r.total/maxM*100}%"></div></div><div class="rv money" style="width:auto">${money(r.total)}</div></div>`).join('');
+
+    // Recebimentos por dia
+    const rd=d.receb_dia||[];
+    document.getElementById('tdia').innerHTML=rd.map(r=>`<tr><td>${r.data.split('-').reverse().join('/')}</td><td class="money">${money(r.bb_pix)}</td><td class="money">${money(r.bb_boleto)}</td><td class="money">${money(r.caixa)}</td><td class="money"><strong>${money(r.total)}</strong></td></tr>`).join('');
+
+    // Conciliacao
+    const cr=d.conc_resumo||{};
+    document.getElementById('c_bruto').textContent=money(cr.bruto);
+    document.getElementById('c_tarifa').textContent=money(cr.tarifa);
+    document.getElementById('c_liquido').textContent=money(cr.liquido);
+    document.getElementById('c_caixa').textContent=money(cr.caixa);
+    const cc=d.conciliacao||[];
+    document.getElementById('tconc').innerHTML=cc.map(r=>`<tr><td>${mesLabel(r.mes)}</td><td class="money">${money(r.bruto_bb)}</td><td class="money" style="color:var(--warn)">${money(r.tarifa_bb)}</td><td class="money" style="color:var(--good)">${money(r.liquido_faculdade)}</td></tr>`).join('');
+    const tb=cc.reduce((a,r)=>({b:a.b+ +r.bruto_bb,t:a.t+ +r.tarifa_bb,l:a.l+ +r.liquido_faculdade}),{b:0,t:0,l:0});
+    document.getElementById('tconcf').innerHTML=`<tr><td>Total</td><td class="money">${money(tb.b)}</td><td class="money">${money(tb.t)}</td><td class="money">${money(tb.l)}</td></tr>`;
 
     // Analise 1
     const a1=d.analise1||[]; const maxT=Math.max(1,...a1.map(r=>r.matriculados));
-    document.getElementById('t1').innerHTML=a1.map(r=>{
-      const cls=r.nao_logaram>0?'crit':'good';
-      return `<tr><td>${esc(nome(r.curso))}</td><td class="num">${fmt(r.matriculados)}</td><td class="num">${fmt(r.logaram)}</td><td class="num"><span class="pill ${cls}">${fmt(r.nao_logaram)}</span></td></tr>`;
-    }).join('');
+    document.getElementById('t1').innerHTML=a1.map(r=>`<tr><td>${esc(nome(r.curso))}</td><td class="num">${fmt(r.matriculados)}</td><td class="num">${fmt(r.logaram)}</td><td class="num"><span class="pill ${r.nao_logaram>0?'crit':'good'}">${fmt(r.nao_logaram)}</span></td></tr>`).join('');
     const s1=a1.reduce((a,r)=>({m:a.m+r.matriculados,l:a.l+r.logaram,n:a.n+r.nao_logaram}),{m:0,l:0,n:0});
     document.getElementById('t1f').innerHTML=`<tr><td>Total</td><td class="num">${fmt(s1.m)}</td><td class="num">${fmt(s1.l)}</td><td class="num">${fmt(s1.n)}</td></tr>`;
-    document.getElementById('c1').innerHTML=a1.map(r=>{
-      const w=r.matriculados/maxT*100, g=r.matriculados?r.logaram/r.matriculados*100:0, c=r.matriculados?r.nao_logaram/r.matriculados*100:0;
-      return `<div class="row"><div class="cl" title="${esc(nome(r.curso))}">${esc(nome(r.curso))}</div><div class="track" style="width:${w}%"><div class="seg g" style="width:${g}%"></div><div class="seg c" style="width:${c}%"></div></div><div class="rv num">${fmt(r.matriculados)}</div></div>`;
-    }).join('');
+    document.getElementById('c1').innerHTML=a1.map(r=>{const w=r.matriculados/maxT*100,g=r.matriculados?r.logaram/r.matriculados*100:0,c=r.matriculados?r.nao_logaram/r.matriculados*100:0;return `<div class="row"><div class="cl" title="${esc(nome(r.curso))}">${esc(nome(r.curso))}</div><div class="track" style="width:${w}%"><div class="seg g" style="width:${g}%"></div><div class="seg c" style="width:${c}%"></div></div><div class="rv num">${fmt(r.matriculados)}</div></div>`;}).join('');
 
-    // Analise 2 (donut)
+    // Analise 2
     const base=k.quitados||1, pnao=Math.round(k.nao_renovaram/base*1000)/10, psim=Math.round(k.renovaram/base*1000)/10;
-    const donut=document.getElementById('donut');
-    const warn=getComputedStyle(document.documentElement).getPropertyValue('--warn').trim();
-    const good=getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
-    donut.style.background=`conic-gradient(${warn} 0 ${pnao}%, ${good} 0)`;
-    document.getElementById('d_nao').textContent=fmt(k.nao_renovaram);
-    document.getElementById('d_nao2').textContent=fmt(k.nao_renovaram);
-    document.getElementById('d_sim').textContent=fmt(k.renovaram);
-    document.getElementById('d_base').textContent=fmt(k.quitados);
-    document.getElementById('d_naop').textContent="("+pnao.toString().replace('.',',')+"%)";
-    document.getElementById('d_simp').textContent="("+psim.toString().replace('.',',')+"%)";
+    const warn=getComputedStyle(document.documentElement).getPropertyValue('--warn').trim(), good=getComputedStyle(document.documentElement).getPropertyValue('--good').trim();
+    const donut=document.getElementById('donut'); donut.style.background=`conic-gradient(${warn} 0 ${pnao}%, ${good} 0)`;
+    document.getElementById('d_nao').textContent=fmt(k.nao_renovaram); document.getElementById('d_nao2').textContent=fmt(k.nao_renovaram);
+    document.getElementById('d_sim').textContent=fmt(k.renovaram); document.getElementById('d_base').textContent=fmt(k.quitados);
+    document.getElementById('d_naop').textContent="("+String(pnao).replace('.',',')+"%)"; document.getElementById('d_simp').textContent="("+String(psim).replace('.',',')+"%)";
 
     // Analise 3
-    const a3=d.analise3||[]; const tot3=a3.reduce((a,r)=>a+r.inadimplentes,0)||1; const max3=Math.max(1,...a3.map(r=>r.inadimplentes));
+    const a3=d.analise3||[]; const tot3=a3.reduce((a,r)=>a+r.inadimplentes,0)||1, max3=Math.max(1,...a3.map(r=>r.inadimplentes));
     document.getElementById('t3').innerHTML=a3.map(r=>`<tr><td>${esc(nome(r.curso))}</td><td class="num">${fmt(r.inadimplentes)}</td><td class="num">${(r.inadimplentes/tot3*100).toFixed(1).replace('.',',')}%</td></tr>`).join('');
     document.getElementById('t3f').innerHTML=`<tr><td>Total</td><td class="num">${fmt(tot3)}</td><td class="num">100%</td></tr>`;
     document.getElementById('c3').innerHTML=a3.map(r=>`<div class="row"><div class="cl" title="${esc(nome(r.curso))}">${esc(nome(r.curso))}</div><div class="track"><div class="seg c" style="width:${r.inadimplentes/max3*100}%"></div></div><div class="rv num">${fmt(r.inadimplentes)}</div></div>`).join('');
   }
-
-  carregar();
 </script>
 </body>
 </html>
