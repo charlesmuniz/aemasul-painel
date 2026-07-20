@@ -124,6 +124,7 @@
     <div class="kpi good"><div class="lab">Acessaram o portal</div><div class="val num">—</div><div class="foot">&nbsp;</div></div>
     <div class="kpi warn"><div class="lab">Quitaram e não renovaram</div><div class="val num">—</div><div class="foot">&nbsp;</div></div>
     <div class="kpi crit"><div class="lab">Inadimplentes 2026.1</div><div class="val num">—</div><div class="foot">≥ 1 mensalidade em aberto</div></div>
+    <div class="kpi warn"><div class="lab">Cancelamentos 2026.1</div><div class="val num">—</div><div class="foot">matrículas com saída (já descontadas)</div></div>
   </div>
 
   <!-- RECEBIMENTOS -->
@@ -201,6 +202,21 @@
     </div>
   </section>
 
+  <section>
+    <div class="stitle"><span class="n">X</span><h2>Cancelamentos 2026.1 <span class="tag">já descontados</span></h2></div>
+    <p class="sdesc">Matrículas com <strong>saída/cancelamento</strong> (campo DATA_SAIDA), por curso (via turma). Estes alunos <strong>já foram removidos</strong> das contagens de matriculados e inadimplência acima.</p>
+    <div class="split">
+      <div class="card scroll"><table>
+        <thead><tr><th>Curso</th><th>Cancelamentos</th></tr></thead>
+        <tbody id="tcanc"></tbody><tfoot id="tcancf"></tfoot>
+      </table></div>
+      <div class="card scroll" style="max-height:320px;overflow-y:auto"><table>
+        <thead><tr><th>Aluno</th><th>Curso</th><th>Data saída</th></tr></thead>
+        <tbody id="tcancl"></tbody>
+      </table></div>
+    </div>
+  </section>
+
   <div class="defs">
     <b>Definições e fonte</b>
     <ul>
@@ -258,9 +274,16 @@
     const k=d.kpi;
     const kb=document.querySelectorAll('#kpis .kpi .val'), foots=document.querySelectorAll('#kpis .kpi .foot');
     kb[0].textContent=fmt(k.matriculados); kb[1].textContent=fmt(k.logaram); kb[2].textContent=fmt(k.nao_renovaram); kb[3].textContent=fmt(k.inadimplentes);
+    if(kb[4]) kb[4].textContent=fmt(k.cancelados);
     const pct=k.matriculados?Math.round(k.logaram/k.matriculados*1000)/10:0;
     foots[1].textContent=pct+"% dos matriculados · "+fmt(k.nao_logaram)+" nunca entraram";
     foots[2].textContent="de "+fmt(k.quitados)+" adimplentes";
+
+    // Cancelamentos
+    const curCanc=d.cancelamentos_curso||[], lstCanc=d.cancelamentos_lista||[];
+    document.getElementById('tcanc').innerHTML=curCanc.map(r=>`<tr><td>${esc(nome(r.curso))}</td><td class="num"><span class="pill crit">${fmt(r.qtd)}</span></td></tr>`).join('');
+    document.getElementById('tcancf').innerHTML=`<tr><td>Total</td><td class="num">${fmt(curCanc.reduce((a,r)=>a+r.qtd,0))}</td></tr>`;
+    document.getElementById('tcancl').innerHTML=lstCanc.map(r=>`<tr><td>${esc(r.aluno||'—')}</td><td>${esc(nome(r.curso))}</td><td>${r.data?r.data.split('-').reverse().join('/'):'—'}</td></tr>`).join('');
     document.getElementById('stamp').textContent="Atualizado em "+new Date(d.gerado_em).toLocaleString('pt-BR');
 
     // Recebimentos por mes (PBS tf12+17)
