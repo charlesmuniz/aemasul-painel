@@ -96,12 +96,12 @@
   @media print{
     @page{size:A4;margin:12mm}
     body{background:#fff}
-    body.print-rel *{visibility:hidden}
-    body.print-rel #relacoes, body.print-rel #relacoes *{visibility:visible}
-    body.print-rel #relacoes{position:absolute;left:0;top:0;width:100%}
+    body.print-rel #gate{display:none!important}
+    body.print-rel .wrap>*:not(#relacoes){display:none!important}
     body.print-rel #relacoes .relbar{display:none}
     body.print-rel #relacoes .card{box-shadow:none;border:none}
-    .reltbl tr{page-break-inside:avoid}
+    body.print-rel .reltbl tr{page-break-inside:avoid}
+    body.print-rel .reltbl thead{display:table-header-group}
   }
 </style>
 </head>
