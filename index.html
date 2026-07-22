@@ -88,6 +88,21 @@
   .defs{margin-top:30px;border-top:1px solid var(--border);padding-top:14px;font-size:12.5px;color:var(--ink-2)}
   .defs b{color:var(--ink)} .defs ul{margin:6px 0 0;padding-left:18px} .defs li{margin:3px 0}
   .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent)}
+  .relbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  select{padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--ink);font-size:14px}
+  .btn.sec{background:var(--surface-2);color:var(--ink)}
+  .relgrp{font-size:15px;font-weight:700;margin:18px 0 8px;color:var(--accent)}
+  .reltbl td,.reltbl th{padding:5px 10px;font-size:12px}
+  @media print{
+    @page{size:A4;margin:12mm}
+    body{background:#fff}
+    body.print-rel *{visibility:hidden}
+    body.print-rel #relacoes, body.print-rel #relacoes *{visibility:visible}
+    body.print-rel #relacoes{position:absolute;left:0;top:0;width:100%}
+    body.print-rel #relacoes .relbar{display:none}
+    body.print-rel #relacoes .card{box-shadow:none;border:none}
+    .reltbl tr{page-break-inside:avoid}
+  }
 </style>
 </head>
 <body>
@@ -217,6 +232,34 @@
     </div>
   </section>
 
+  <section id="relacoes">
+    <div class="stitle"><span class="n">≣</span><h2>Relações nominais (para impressão)</h2></div>
+    <p class="sdesc">Escolha o período e gere a relação de <strong>alunos sem acesso</strong> e de <strong>inadimplentes</strong>, com nome e contatos (telefone/email). Use <strong>Imprimir / PDF</strong> para gerar o documento só desta relação.</p>
+    <div class="relbar">
+      <label>Período:
+        <select id="relAno">
+          <option value="20261">2026.1</option>
+          <option value="20252">2025.2</option>
+          <option value="20251">2025.1</option>
+          <option value="20242">2024.2</option>
+          <option value="20241">2024.1</option>
+          <option value="20232">2023.2</option>
+          <option value="20231">2023.1</option>
+          <option value="20222">2022.2</option>
+          <option value="20221">2022.1</option>
+          <option value="20212">2021.2</option>
+          <option value="20211">2021.1</option>
+          <option value="20202">2020.2</option>
+          <option value="20201">2020.1</option>
+        </select>
+      </label>
+      <button class="btn" id="btnRel" onclick="carregarRelacao()"><span class="sp"></span><span class="lbl">Gerar relação</span></button>
+      <button class="btn sec" onclick="imprimirRelacao()">🖨 Imprimir / PDF</button>
+      <span class="stamp" id="relStamp"></span>
+    </div>
+    <div id="relArea"><p class="sdesc">Selecione o período e clique em "Gerar relação".</p></div>
+  </section>
+
   <div class="defs">
     <b>Definições e fonte</b>
     <ul>
@@ -245,6 +288,36 @@
       headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_senha:SENHA})});
     if(!res.ok) throw new Error("HTTP "+res.status);
     return res.json();
+  }
+
+  async function carregarRelacao(){
+    const btn=document.getElementById('btnRel'), area=document.getElementById('relArea'), ano=document.getElementById('relAno').value;
+    btn.classList.add('loading'); btn.disabled=true;
+    try{
+      const res=await fetch(SB_URL+"/rest/v1/rpc/fn_relacoes",{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_senha:SENHA,p_ano:ano})});
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const d=await res.json();
+      if(d.erro) throw new Error(d.erro);
+      const lbl=document.getElementById('relAno').selectedOptions[0].textContent;
+      const sa=d.sem_acesso||[], ina=d.inadimplentes||[];
+      let html=`<div class="relgrp">Alunos sem acesso à plataforma — ${lbl} (${sa.length})</div>`;
+      html+=`<div class="card scroll"><table class="reltbl"><thead><tr><th>Aluno</th><th>Matríc.</th><th>Curso</th><th>Telefone</th><th>Email</th><th>Situação</th></tr></thead><tbody>`;
+      html+=sa.map(r=>`<tr><td>${esc(r.nome||'—')}</td><td class="num">${r.matricula}</td><td>${esc(r.curso)}</td><td>${esc(r.telefone||'')}</td><td>${esc(r.email||'')}</td><td>${esc(r.situacao)}</td></tr>`).join('')||`<tr><td colspan="6">Nenhum</td></tr>`;
+      html+=`</tbody></table></div>`;
+      html+=`<div class="relgrp">Inadimplentes — ${lbl} (${ina.length})</div>`;
+      html+=`<div class="card scroll"><table class="reltbl"><thead><tr><th>Aluno</th><th>Matríc.</th><th>Curso</th><th>Telefone</th><th>Email</th><th>Parc.</th><th>Saldo</th></tr></thead><tbody>`;
+      html+=ina.map(r=>`<tr><td>${esc(r.nome||'—')}</td><td class="num">${r.matricula}</td><td>${esc(r.curso)}</td><td>${esc(r.telefone||'')}</td><td>${esc(r.email||'')}</td><td class="num">${r.parcelas}</td><td class="money">${money(r.saldo)}</td></tr>`).join('')||`<tr><td colspan="7">Nenhum</td></tr>`;
+      html+=`</tbody></table></div>`;
+      area.innerHTML=html;
+      document.getElementById('relStamp').textContent="Gerado em "+new Date(d.gerado_em).toLocaleString('pt-BR');
+    }catch(e){ area.innerHTML=`<p class="sdesc" style="color:var(--crit)">Erro ao gerar relação (${e.message}).</p>`; }
+    finally{ btn.classList.remove('loading'); btn.disabled=false; }
+  }
+  function imprimirRelacao(){
+    if(!document.getElementById('relArea').textContent.includes('—') && !document.querySelector('#relArea .reltbl')){ alert('Gere a relação primeiro.'); return; }
+    document.body.classList.add('print-rel');
+    window.onafterprint=()=>document.body.classList.remove('print-rel');
+    window.print();
   }
 
   async function entrar(ev){
